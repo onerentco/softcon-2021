@@ -1,0 +1,7 @@
+app/*png
+__pycache__/
+.env/
+.python-version
+*.ipynb
+*.pdf
+*.pickle

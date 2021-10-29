@@ -15,3 +15,33 @@ Your goal is to design a new CAPTCHA (Completely Automated Turing Test to tell C
     
 
 4.  How applicable is it to different situations? AI is beginning to invade many different areas of life. Traditionally CAPTCHAs are used on websites, but would your CAPTCHA be able to be used in different circumstance. For example, to tell the difference between a lifelike robot and a real person in a real-life setting? How about over the phone? Argue why your CAPTCHA is the CAPTCHA of the future. *(15 points)*
+
+
+-----
+
+
+
+# Google QuickDraw as Captcha
+Makes use of quick-draw-image-recognition to implement a basic captcha login authentication. You can learn more about quick-draw-image-recognition [here](https://github.com/Lexie88rus/quick-draw-image-recognition/blob/master/Quick%20Draw%20Report.pdf).
+
+
+### Setup Instructions
+To run the web application follow steps:
+1. Download or clone the repository.
+2. From root folder run command to build the model:
+```
+$ pip install
+$ python build_model.py
+```
+3. Navigate to `app` folder:
+```
+$ cd ../app
+```
+4. Run app:
+```
+$ python run.py
+```
+5. Open http://0.0.0.0:3001/ in browser.
+
+
+![Test](./test.gif)

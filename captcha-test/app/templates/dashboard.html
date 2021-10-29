@@ -1,0 +1,31 @@
+{% extends"index.html" %} {% block title %}Verify{% endblock %} {% block message %}
+<div>
+    <div class="row justify-content-center">
+        <h1>Welcome to Dashboard!</h1>
+    </div>
+    <div class="row justify-content-center">
+        <p>You are logged in!</p>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-3">
+            <button type="button" class="btn btn-secondary btn-lg btn-block" onClick="location.href='/'">Logout</button>
+        </div>
+    </div>
+</div>
+{% endblock %} {% block body %}
+<script type="text/javascript">
+    // hide canvas
+    var x = document.getElementById("can");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+
+    // hide div with buttons
+    var ld = document.getElementById("login-div");
+    var dd = document.getElementById("draw-div");
+    ld.setAttribute('style', 'display:none !important');
+    dd.setAttribute('style', 'display:none !important');
+</script>
+{% endblock %}

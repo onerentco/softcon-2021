@@ -1,0 +1,88 @@
+{% extends"index.html" %} {% block title %}Results{% endblock %} {% block message %}
+<div class="row justify-content-center">
+  <div id="alertSuccess" class="alert alert-success ml-5 col-10" role="alert" style="display: none;">
+    <h4 class="alert-heading" align="center">You drew a {{result}}! Click Continue.</h4>
+  </div>
+  <div id="alertDanger" class="alert alert-danger ml-5 col-10" role="alert" style="display: none;">
+    <h4 class="alert-heading" align="center">Hmmm... That does not look like a <strong>{{decoded_text}}</strong>. Please try again.</h4>
+  </div>
+</div>
+<div class="row">
+    <div class="col-1">
+    </div>
+    {% for id in ids %}
+    <div class="col-5">
+        <div id="{{id}}"></div>
+    </div>
+    {% endfor %}
+    <div class="col-1">
+    </div>
+    <div class="col-5">
+        <img id="canvasimg" style="display:none;">
+    </div>
+</div>
+<div class="row justify-content-center">
+    <!-- Button to navigate back-->
+    <div class="col-3">
+        <button id="btnBack" type="button" class="btn btn-secondary btn-lg btn-block" onClick="location.href='/'">Back Login</button>
+        <button id="btnLogin" type="button" class="btn btn-primary btn-lg btn-block" onClick="location.href='/dashboard'">Continue</button>
+    </div>
+</div>
+{% endblock %} {% block body %}
+<script type="text/javascript">
+    let drawItem = "{{decoded_text}}"
+    // render plot with probabilities for each class
+    const graphs = {{graphJSON | safe}};
+    const ids = {{ids | safe}};
+    console.log(graphs)
+    for (let i in graphs) {
+        Plotly.plot(ids[i], graphs[i].data, graphs[i].layout);
+    }
+    console.log('graphs rendered');
+    let itemIdx = graphs[0].data[0].y.indexOf(drawItem)
+    let itemScore = graphs[0].data[0].x[itemIdx]
+    var aS = document.getElementById("alertSuccess");
+    var aD = document.getElementById("alertDanger");
+    var bL = document.getElementById("btnLogin");
+    var bB = document.getElementById("btnBack");
+    
+    aD.setAttribute('style', 'display:none !important');
+    if (itemScore >= 0.5) {
+      // display success
+      aS.setAttribute('style', 'display:block !important');
+      aD.setAttribute('style', 'display:none !important');
+      bL.setAttribute('style', 'display:block !important');
+      bB.setAttribute('style', 'display:none !important');
+    } else {
+      // display error
+      aS.setAttribute('style', 'display:none !important');
+      aD.setAttribute('style', 'display:block !important');
+      bL.setAttribute('style', 'display:none !important');
+      bB.setAttribute('style', 'display:block !important');
+    }
+</script>
+
+<script type="text/javascript">
+    // render drawn image
+    dataUrl = "data:image/png;base64," + '{{dataURL}}'
+    document.getElementById("canvasimg").style.border = "2px solid";
+    document.getElementById("canvasimg").src = dataUrl;
+    document.getElementById("canvasimg").style.display = "inline";
+</script>
+
+<script type="text/javascript">
+    // hide canvas
+    var x = document.getElementById("can");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+
+    // hide div with buttons
+    var ld = document.getElementById("login-div");
+    var dd = document.getElementById("draw-div");
+    ld.setAttribute('style', 'display:none !important');
+    dd.setAttribute('style', 'display:none !important');
+</script>
+{% endblock %}
