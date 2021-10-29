@@ -1,0 +1,180 @@
+<!--
+Template for the main page of the Quick Draw web app.
+
+Code for drawing on canvas is from:
+https://stackoverflow.com/questions/2368784/draw-on-html5-canvas-using-a-mouse
+-->
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Quick Draw!</title>
+    <link rel="shortcut icon" href="{{url_for('static', filename='favicon.ico')}}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- FontAwesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js" integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP" crossorigin="anonymous"></script>
+    <!-- Plotly-->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<script type="text/javascript">
+    var canvas, ctx, flag = false,
+        prevX = 0,
+        currX = 0,
+        prevY = 0,
+        currY = 0,
+        dot_flag = false;
+
+    var x = "black",
+        y = 2;
+
+    function init() {
+        canvas = document.getElementById('can');
+        ctx = canvas.getContext("2d");
+        w = canvas.width;
+        h = canvas.height;
+
+        canvas.addEventListener("mousemove", function(e) {
+            findxy('move', e)
+        }, false);
+        canvas.addEventListener("mousedown", function(e) {
+            findxy('down', e)
+        }, false);
+        canvas.addEventListener("mouseup", function(e) {
+            findxy('up', e)
+        }, false);
+        canvas.addEventListener("mouseout", function(e) {
+            findxy('out', e)
+        }, false);
+    }
+
+    function color(obj) {
+        x = "black";
+    }
+
+    function draw() {
+        ctx.beginPath();
+        ctx.moveTo(prevX, prevY);
+        ctx.lineTo(currX, currY);
+        ctx.strokeStyle = x;
+        ctx.lineWidth = y;
+        ctx.stroke();
+        ctx.closePath();
+    }
+
+    function erase() {
+        var m = confirm("Clear canvas?");
+        if (m) {
+            ctx.clearRect(0, 0, w, h);
+            document.getElementById("canvasimg").style.display = "none";
+        }
+    }
+
+    function save() {
+        var dataURL = canvas.toDataURL();
+        // get base64 string from dataUrl
+        dataURL = dataURL.split(",")[1];
+        //  replace base64 characters '+/=' with '._-'
+        while (dataURL.indexOf('+') > 0) {
+            dataURL = dataURL.replace('+', '.');
+        }
+        while (dataURL.indexOf('/') > 0) {
+            dataURL = dataURL.replace('/', '_');
+        }
+        while (dataURL.indexOf('=') > 0) {
+            dataURL = dataURL.replace('=', '-');
+        }
+
+        window.location.href = '/verify/' + dataURL + "?ect={{encoded_text}}";
+    }
+
+    function findxy(res, e) {
+        if (res == 'down') {
+            prevX = currX;
+            prevY = currY;
+            currX = e.clientX - canvas.offsetLeft;
+            currY = e.clientY - canvas.offsetTop;
+
+            flag = true;
+            dot_flag = true;
+            if (dot_flag) {
+                ctx.beginPath();
+                ctx.fillStyle = x;
+                ctx.fillRect(currX, currY, 2, 2);
+                ctx.closePath();
+                dot_flag = false;
+            }
+        }
+        if (res == 'up' || res == "out") {
+            flag = false;
+        }
+        if (res == 'move') {
+            if (flag) {
+                prevX = currX;
+                prevY = currY;
+                currX = e.clientX - canvas.offsetLeft;
+                currY = e.clientY - canvas.offsetTop;
+                draw();
+            }
+        }
+    }
+
+    function login() {
+        var ld = document.getElementById("login-div");
+        var dd = document.getElementById("draw-div");
+        ld.setAttribute('style', 'display:none !important');
+        dd.setAttribute('style', 'display:block !important');
+    }
+</script>
+
+<body onload="init()">
+
+    <!-- page header -->
+    <div class="jumbotron" style="background-image: url({{url_for('static', filename='jumbotron.png')}})">
+        <div class="container p-5" style="background-color:#ffffffff; width: 70%;">
+            <h1 class="text-center">Captcha with Google Quickdraw!</h1>
+            <p class="text-center">Click "Login" to continue. <br> You'll be asked to draw an image to check if you are human and verify your login.</p>
+        </div>
+    </div>
+    <!-- Place to render model prediction -->
+    {% block message %} {% endblock %}
+
+    <div id="login-div">
+        <div class="d-flex flex-column  align-items-center">
+            <div class="form-group" style="width: 400px;">
+                <label for="exampleInputEmail1">Email address</label>
+                <input disabled value="hello@test.com" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+            </div>
+            <div class="form-group" style="width: 400px;">
+                <label for="exampleInputPassword1">Password</label>
+                <input disabled value="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 400px;" onclick="login()">Login</button>
+        </div>
+    </div>
+    <div id="draw-div" style="display: none;">
+        <div class="row justify-content-center">
+            <p>Please draw a <strong>{{draw_item}}</strong> then click "Done!".</p>
+        </div>
+        <!-- Block for the main content of the page: canvas and model predictions -->
+        <div id="draw-canvass" class="row justify-content-center">
+            <!-- Canvas element to draw images-->
+            <canvas id="can" width="400" height="400" style="border:2px solid; margin:25px"></canvas>
+        </div>
+        <div id="draw-buttons" class="row justify-content-center">
+            <!-- Button to confirm drawing-->
+            <input class="btn btn-primary col-md-1" type="button" value="Done!" id="btn" onclick="save()">
+            <!-- Button to clear canvas-->
+            <input class="btn btn-primary col-md-1 ml-5" type="button" value="Clear" id="clr" onclick="erase()">
+        </div>
+    </div>
+
+    {% block body %} {% endblock %}
+</body>
+
+</html>
