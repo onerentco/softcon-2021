@@ -1,4 +1,5 @@
 # Poplar Homes Coding Challenge
+![image](https://user-images.githubusercontent.com/31820961/140914511-5c5d1885-e0f4-4c7f-932a-12587e335a55.png)
 
 ## Mechanics
 * NO collaborations. Every man for himself.
