@@ -1,5 +1,5 @@
-# Captcha Creation
-A CAPTCHA is an automated test that humans (even those of low intelligence) can pass easily, while AI or Machines (even if they are advanced), will fail.
+# Roulette-based CAPTCHA concept
+The roulette-based CAPTCHA concept is a series of CAPTCHAs that can be done using a wheel as its base point of control that the users can move to identify if they are humans or automated machines. The design in this repository is created and can be accessed using Balsamiq Wireframes application.
 
 ## Introduction
 This is created using the Balsamiq Wireframes app that is mostly used for low-fidelity prototyping and UX design.
