@@ -1,0 +1,117 @@
+* {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+}
+
+.arrow {
+  border: solid black;
+  border-width: 0 5px 5px 0;
+  display: inline-block;
+  padding: 3px;
+  width: 5px;
+  height: 5px;
+}
+
+.ArrowRight {
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.ArrowLeft {
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+}
+
+.ArrowUp {
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+}
+
+.ArrowDown {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+p#captcha_arrow {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.arrocap {
+  display: flex;
+  justify-content: center;
+}
+
+.arrowcap_content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 5px dashed #cfcfcf;
+  width: max-content;
+  min-width: 170px;
+}
+
+.arrowcap_content > p#captcha_text {
+  background-color: #cfcfcf;
+  color: white;
+  text-align: center;
+  width: 100%;
+}
+
+.arrowcap_content > p#captcha_arrow {
+  background-color: #cfcfcf;
+  color: white;
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.arrowcap_content > p#captcha_arrow > span {
+  border-color: white;
+}
+
+/**Arrow buttons for mobile*/
+div.arrowButton_content {
+  display: none;
+}
+@media only screen and (max-width: 1024px) {
+  /* your CSS here */
+  div.arrowButton_content {
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+  }
+
+  div.arrowButton_content > button {
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    border: 1px solid #969696;
+  }
+
+  div.arrowButton_content > button > span {
+    border-color: #969696;
+  }
+}
+
+p#captcha_text > span {
+  font-size: 30px;
+  font-weight: 900;
+  letter-spacing: 0.2rem;
+  text-decoration: line-through 2px solid;
+}
+
+.arrowcap_content > input#captcha_input {
+  line-height: 2em;
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: groove;
+  text-align: center;
+  width: 100%;
+}
+.arrowcap_content > input#captcha_input:focus {
+  outline: none;
+}
