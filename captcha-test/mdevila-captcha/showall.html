@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="mycaptcha/captcha.css">
+    <link rel="stylesheet" href="custom.css">
+</head>
+<body>
+    <ol>
+        <li><a href="index.html">Default</a></li>
+        <li><a href="randomtext.html">Show captcha random text</a></li>
+        <li><a href="inputbox.html">Show inputbox</a></li>
+        <li><a href="showall.html">Show captcha random text and inputbox</a></li>
+        <li>Resize screen to show arrow buttons for mobile</li>
+    </ol>
+    <div class="main">
+        <fieldset>
+            <legend>Captcha Example</legend>
+            <form id="captcha_form" class="form_container" action="showall.html">
+                <div class="arrocap"></div>
+                <div class="form_content">
+                    <div class="form_button">
+                        <button type="submit" id="btn_submit">Submit</button>
+                        <button id="btn_reset">Reset</button>
+                    </div>
+                </div>
+            </form>
+        </fieldset>
+    </div>
+    <div class="fieldLegend">
+        <fieldset>
+            <legend>Keys</legend>
+            <p>Right arrow: &nbsp;&nbsp;<i class="arrow ArrowRight"></i></p>
+            <p>Left arrow: &nbsp;&nbsp;<i class="arrow ArrowLeft"></i></p>
+            <p>Up arrow: &nbsp;&nbsp;<i class="arrow ArrowUp"></i></p>
+            <p>Down arrow: &nbsp;&nbsp;<i class="arrow ArrowDown"></i></p>
+        </fieldset>
+        <fieldset class="code">
+            <legend>Code</legend>
+            <code>
+                html<br/>
+                &lt;div class="arrocap"&gt;&lt;/div&gt;<br/><br/>
+                javascript<br/>
+                Captcha.init({
+                    showInput: true,
+                    showRandom: true
+                });
+            </code>
+        </fieldset>
+    </div>
+</body>
+
+<script src="mycaptcha/captcha.js"></script>
+<script>
+    //initialize Captcha
+    Captcha.init({
+        showInput: true,
+        showRandom: true
+    });
+</script>
+<script src="custom.js"></script>
+</html>
