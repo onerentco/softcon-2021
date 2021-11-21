@@ -1,3 +1,7 @@
-# softcon_captcha
+# Tinder-inspired Captcha
 
-Made by Tyrone Chris Abad
+Made by **Tyrone Chris Abad**
+
+Made with Flutter
+
+Deployed to https://softcon-tinder-captcha.web.app/
