@@ -2,6 +2,6 @@
 
 Made by **Tyrone Chris Abad**
 
-Made with Flutter
+Made with Flutter Web ❤️
 
 Deployed to https://softcon-tinder-captcha.web.app/
